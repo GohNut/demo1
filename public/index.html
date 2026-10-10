@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="description" content="บัตรสมาชิกดิจิทัล Sukjai Club (สุขใจ คลับ) บน LINE LIFF">
+  <title>บัตรสมาชิก | สุขใจ คลับ</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Official LINE LIFF SDK v2 -->
+  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+  <div class="mb-page">
+    <div class="mb-container">
+
+      <!-- Preview Mode Toolbar (Visible only when in Preview Mode) -->
+      <section id="preview-bar" class="mb-preview-bar" aria-label="แถบควบคุมโหมดดูตัวอย่าง">
+        <div class="mb-preview-bar-header">
+          <div class="mb-preview-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span>โหมดดูตัวอย่าง (Preview Mode)</span>
+          </div>
+          <span class="mb-preview-badge-pill">DEMO DATA</span>
+        </div>
+        <p class="mb-preview-bar-desc">
+          ยังไม่ได้กำหนด LIFF ID — แสดงผลด้วยข้อมูลจำลอง ไม่ใช่การล็อกอิน LINE จริง
+        </p>
+        <div class="mb-preview-controls">
+          <div class="mb-preview-control-row">
+            <label for="select-preview-state" class="mb-preview-control-label">สถานะ:</label>
+            <select id="select-preview-state" class="mb-preview-select" aria-label="เลือกสถานะของหน้า">
+              <option value="state-signed-in">1. สมาชิกเข้าสู่ระบบปกติ (Signed-In)</option>
+              <option value="state-loading">2. กำลังโหลดข้อมูล (Loading)</option>
+              <option value="state-missing-avatar">3. ไม่มีรูปโปรไฟล์ LINE (Missing Avatar)</option>
+              <option value="state-unauthenticated">4. ยังไม่ได้ล็อกอิน (Unauthenticated)</option>
+              <option value="state-error">5. เกิดข้อผิดพลาด (Error)</option>
+            </select>
+          </div>
+          <div class="mb-preview-control-row" id="row-preview-case">
+            <label for="select-preview-case" class="mb-preview-control-label">กรณีทดสอบ:</label>
+            <select id="select-preview-case" class="mb-preview-select" aria-label="เลือกกรณีทดสอบข้อมูล">
+              <option value="normal">ชื่อปกติ (สมชาย ใจดี)</option>
+              <option value="long-name">ชื่อยาวมาก (ทดสอบตัดคำ)</option>
+              <option value="emoji-name">ชื่ออิโมจิล้วน (🌿✨☕️⭐️🎉)</option>
+              <option value="no-status">ไม่มีข้อความสถานะ (No Status)</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Brand Header (.mb-header) -->
+      <header class="mb-header" role="banner">
+        <svg class="mb-header-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <!-- Leaf / Hospitality Symbol -->
+          <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C5.79 10.75 10 8 17 8Z"/>
+        </svg>
+        <h1 class="mb-header-title">สุขใจ คลับ</h1>
+      </header>
+
+      <!-- MAIN CONTENT VIEWS -->
+      <main id="app-main" role="main">
+
+        <!-- STATE 1: LOADING STATE VIEW -->
+        <section id="view-loading" class="mb-card" aria-busy="true" aria-live="polite" style="display: none;">
+          <div class="mb-avatar-wrapper">
+            <div class="mb-skeleton mb-skeleton-avatar"></div>
+          </div>
+          <div class="mb-skeleton mb-skeleton-name"></div>
+          <div class="mb-divider"></div>
+          <div class="mb-info-grid">
+            <div class="mb-skeleton mb-skeleton-row"></div>
+          </div>
+          <div class="mb-loading-indicator">
+            <div class="mb-spinner" aria-hidden="true"></div>
+            <span>กำลังโหลดข้อมูลสมาชิก...</span>
+          </div>
+        </section>
+
+        <!-- STATE 2 & 3: SIGNED-IN PROFILE VIEW (HERO CARD) -->
+        <section id="view-profile" style="display: none;">
+          <article class="mb-card" aria-label="บัตรสมาชิกดิจิทัล">
+            <!-- Hero Avatar -->
+            <div class="mb-avatar-wrapper">
+              <div class="mb-avatar" id="avatar-container">
+                <img id="avatar-img" src="" alt="รูปโปรไฟล์ LINE ของคุณ" style="display: none;">
+                <svg id="avatar-fallback" class="mb-avatar-fallback" viewBox="0 0 24 24" fill="currentColor" style="display: none;" aria-label="รูปโปรไฟล์สมาชิก (ไม่มีรูปใน LINE)">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- LINE Display Name -->
+            <h2 id="display-name" class="mb-display-name">สมชาย ใจดี</h2>
+
+            <!-- LINE Status Message (Omitted when empty) -->
+            <p id="status-message" class="mb-status-message">“สุขใจทุกวันที่ได้พบกัน”</p>
+
+            <!-- Card Divider -->
+            <div class="mb-divider" role="separator"></div>
+
+            <!-- Member Meta Row -->
+            <div class="mb-info-grid">
+              <!-- หมายเลขสมาชิก -->
+              <div class="mb-info-row">
+                <span class="mb-info-label">หมายเลขสมาชิก</span>
+                <div class="mb-info-value-group">
+                  <span id="member-number" class="mb-info-value is-mono">MB-0000-0000</span>
+                  <button id="btn-copy-id" class="mb-btn-copy" type="button" aria-label="คัดลอกหมายเลขสมาชิก" title="คัดลอกหมายเลขสมาชิก">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Action Buttons Component -->
+          <div class="mb-actions" style="margin-top: 20px;">
+            <button id="btn-refresh" class="mb-btn mb-btn-primary" type="button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+              <span>รีเฟรชข้อมูล</span>
+            </button>
+            <button id="btn-close-window" class="mb-btn mb-btn-secondary" type="button">
+              <span>ปิดหน้าต่าง</span>
+            </button>
+          </div>
+
+          <!-- Support Reference Footnote -->
+          <p id="support-ref" class="mb-support-ref">
+            ID อ้างอิง: <span id="support-user-id">U1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6</span>
+          </p>
+        </section>
+
+        <!-- STATE 4: UNAUTHENTICATED / OUTSIDE LINE VIEW -->
+        <section id="view-unauth" class="mb-card mb-state-card" style="display: none;">
+          <div class="mb-state-icon-wrapper mb-state-icon-unauth" aria-hidden="true">
+            <!-- LINE Chat Bubble Icon -->
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+            </svg>
+          </div>
+          <h2 class="mb-state-title">กรุณาเข้าสู่ระบบผ่าน LINE</h2>
+          <p class="mb-state-desc">
+            หน้านี้สำหรับสมาชิก Sukjai Club เพื่อดูข้อมูลบัตรสมาชิก กรุณากดปุ่มด้านล่างเพื่อเข้าสู่ระบบ หรือเปิดผ่านแอปพลิเคชัน LINE
+          </p>
+          <div class="mb-actions" style="margin-top: 8px;">
+            <button id="btn-login" class="mb-btn mb-btn-primary" type="button">
+              <span>เข้าสู่ระบบด้วย LINE</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- STATE 5: ERROR / SYSTEM FAILURE VIEW -->
+        <section id="view-error" class="mb-card mb-state-card" style="display: none;">
+          <div class="mb-state-icon-wrapper mb-state-icon-error" aria-hidden="true">
+            <!-- Alert Warning Shield Icon -->
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L1 21h22L12 2zm1 15h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+            </svg>
+          </div>
+          <h2 class="mb-state-title is-error">ไม่สามารถโหลดข้อมูลสมาชิกได้</h2>
+          <p class="mb-state-desc" id="error-desc-text">
+            ขออภัย ระบบไม่สามารถเชื่อมต่อกับ LINE ได้ในขณะนี้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต แล้วลองใหม่อีกครั้ง
+          </p>
+          <div class="mb-actions" style="margin-top: 8px;">
+            <button id="btn-retry" class="mb-btn mb-btn-primary" type="button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+              <span>ลองใหม่อีกครั้ง</span>
+            </button>
+            <button id="btn-error-close" class="mb-btn mb-btn-secondary" type="button">
+              <span>ปิดหน้านี้</span>
+            </button>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Toast Feedback Notification -->
+      <div id="toast" class="mb-toast" role="status" aria-live="polite">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span id="toast-text">คัดลอกหมายเลขสมาชิกแล้ว</span>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

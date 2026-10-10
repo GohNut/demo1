@@ -1,0 +1,17 @@
+{
+  "name": "sukjai-club-line-member",
+  "version": "1.0.0",
+  "description": "Sukjai Club LINE LIFF Member Profile Web Application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/server.test.js"
+  },
+  "keywords": [
+    "line",
+    "liff",
+    "member-profile"
+  ],
+  "author": "",
+  "license": "ISC"
+}

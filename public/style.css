@@ -1,0 +1,664 @@
+/* ==========================================================================
+   Sukjai Club LINE LIFF Member Profile Stylesheet
+   Governed by design.md tokens & specifications
+   ========================================================================== */
+
+:root {
+  /* Surface Tokens */
+  --mb-surface-page: #F8FAFC;
+  --mb-surface-card: #FFFFFF;
+  --mb-surface-card-subtle: #F1F5F9;
+  --mb-surface-avatar-placeholder: #F1F5F9;
+  --mb-surface-badge-gold: #FEF3C7;
+  --mb-surface-badge-platinum: #EEF2FF;
+  --mb-surface-badge-active: #ECFDF5;
+  --mb-surface-state-error: #FEF2F2;
+  --mb-surface-state-warning: #FFFBEB;
+
+  /* Border Tokens */
+  --mb-border-card: #E2E8F0;
+  --mb-border-focus: #2563EB;
+  --mb-border-divider: #F1F5F9;
+  --mb-border-badge-gold: #FDE68A;
+  --mb-border-badge-platinum: #C7D2FE;
+  --mb-border-badge-active: #A7F3D0;
+  --mb-border-state-error: #FECACA;
+
+  /* Text Tokens */
+  --mb-text-primary: #0F172A;
+  --mb-text-secondary: #475569;
+  --mb-text-muted: #64748B;
+  --mb-text-inverse: #FFFFFF;
+  --mb-text-badge-gold: #78350F;
+  --mb-text-badge-platinum: #1E3A8A;
+  --mb-text-badge-active: #065F46;
+  --mb-text-error: #991B1B;
+  --mb-text-warning: #92400E;
+
+  /* Accent Tokens */
+  --mb-accent-primary: #065F46;
+  --mb-accent-primary-hover: #047857;
+  --mb-accent-primary-active: #064E3B;
+  --mb-accent-primary-subtle: #ECFDF5;
+
+  /* Depth Tokens */
+  --mb-depth-level-1: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --mb-depth-level-2: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+
+  /* Shape Tokens */
+  --mb-shape-card: 20px;
+  --mb-shape-button: 12px;
+  --mb-shape-badge: 9999px;
+  --mb-shape-avatar: 50%;
+  --mb-shape-skeleton: 8px;
+
+  /* Spacing Tokens */
+  --mb-spacing-page-x: 16px;
+  --mb-spacing-page-y: 20px;
+  --mb-spacing-card-p: 24px;
+  --mb-spacing-avatar-size: 88px;
+  --mb-spacing-button-h-primary: 52px;
+  --mb-spacing-button-h-secondary: 48px;
+  --mb-spacing-gap-fields: 16px;
+  --mb-spacing-gap-buttons: 12px;
+  --mb-spacing-tap-min: 48px;
+
+  /* Typography Sizing & Line Heights */
+  --mb-font-family: -apple-system, BlinkMacSystemFont, "Sukhumvit Tadmai", "Thonburi", "Sarabun", "Prompt", system-ui, sans-serif;
+  --mb-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  
+  --mb-font-size-hero: 22px;
+  --mb-line-height-hero: 32px;
+  --mb-font-weight-hero: 700;
+
+  --mb-font-size-body: 16px;
+  --mb-line-height-body: 24px;
+
+  --mb-font-size-caption: 14px;
+  --mb-line-height-caption: 22px;
+}
+
+/* Base Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100%;
+  background-color: var(--mb-surface-page);
+  color: var(--mb-text-primary);
+  font-family: var(--mb-font-family);
+  font-size: var(--mb-font-size-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Page Layout Container */
+.mb-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--mb-spacing-page-y) var(--mb-spacing-page-x);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.mb-container {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mb-spacing-page-y);
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Preview Toolbar Banner (Only displayed in Preview Mode)
+   ========================================================================== */
+.mb-preview-bar {
+  display: none;
+  background-color: #FEF3C7;
+  border: 1px solid #FDE68A;
+  border-radius: var(--mb-shape-button);
+  padding: 12px 14px;
+  font-size: var(--mb-font-size-caption);
+  line-height: var(--mb-line-height-caption);
+  color: #92400E;
+  margin-bottom: 4px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.mb-preview-bar.is-visible {
+  display: block;
+}
+
+.mb-preview-bar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.mb-preview-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.mb-preview-badge-pill {
+  background: #B45309;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mb-preview-bar-desc {
+  font-size: 13px;
+  line-height: 18px;
+  color: #78350F;
+  margin-bottom: 10px;
+}
+
+.mb-preview-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mb-preview-control-row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mb-preview-control-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #78350F;
+}
+
+.mb-preview-select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  height: 40px;
+  padding: 0 10px;
+  font-size: 14px;
+  font-family: inherit;
+  border: 1px solid #D97706;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  color: #451A03;
+  cursor: pointer;
+  box-sizing: border-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.mb-preview-select:focus {
+  outline: 2px solid var(--mb-border-focus);
+}
+
+/* ==========================================================================
+   Component 1: Brand Header (.mb-header)
+   ========================================================================== */
+.mb-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 4px 0 8px 0;
+}
+
+.mb-header-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--mb-accent-primary);
+  flex-shrink: 0;
+}
+
+.mb-header-title {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+  color: var(--mb-text-primary);
+}
+
+/* ==========================================================================
+   Component 2: Hero Member Pass Card (.mb-card)
+   ========================================================================== */
+.mb-card {
+  background-color: var(--mb-surface-card);
+  border: 1px solid var(--mb-border-card);
+  border-radius: var(--mb-shape-card);
+  box-shadow: var(--mb-depth-level-1);
+  padding: var(--mb-spacing-card-p);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  transition: opacity 200ms ease-out;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Hero Avatar (.mb-avatar) */
+.mb-avatar-wrapper {
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.mb-avatar {
+  width: var(--mb-spacing-avatar-size);
+  height: var(--mb-spacing-avatar-size);
+  border-radius: var(--mb-shape-avatar);
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+  background-color: var(--mb-surface-avatar-placeholder);
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.mb-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mb-avatar-fallback {
+  width: 44px;
+  height: 44px;
+  color: var(--mb-text-muted);
+}
+
+/* LINE Display Name (.mb-display-name) */
+.mb-display-name {
+  font-size: var(--mb-font-size-hero);
+  line-height: var(--mb-line-height-hero);
+  font-weight: var(--mb-font-weight-hero);
+  color: var(--mb-text-primary);
+  margin-bottom: 6px;
+  min-height: 32px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+/* LINE Status Message (.mb-status-message) */
+.mb-status-message {
+  font-size: var(--mb-font-size-caption);
+  line-height: var(--mb-line-height-caption);
+  font-weight: 400;
+  color: var(--mb-text-secondary);
+  font-style: italic;
+  margin-bottom: 16px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.mb-status-message.is-empty {
+  display: none;
+  margin: 0;
+}
+
+/* Card Divider */
+.mb-divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--mb-border-divider);
+  margin-bottom: 20px;
+}
+
+/* Member Meta Rows (.mb-info-grid) */
+.mb-info-grid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mb-spacing-gap-fields);
+}
+
+.mb-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  min-height: 48px;
+}
+
+.mb-info-label {
+  font-size: var(--mb-font-size-caption);
+  line-height: var(--mb-line-height-caption);
+  font-weight: 500;
+  color: var(--mb-text-secondary);
+}
+
+.mb-info-value-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mb-info-value {
+  font-size: var(--mb-font-size-body);
+  line-height: var(--mb-line-height-body);
+  font-weight: 600;
+  color: var(--mb-text-primary);
+}
+
+.mb-info-value.is-mono {
+  font-family: var(--mb-font-mono);
+  letter-spacing: 0.5px;
+}
+
+/* Copy Button Target (48px x 48px hit area) */
+.mb-btn-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--mb-spacing-tap-min);
+  height: var(--mb-spacing-tap-min);
+  padding: 14px;
+  border: none;
+  background: transparent;
+  color: var(--mb-text-muted);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.mb-btn-copy:hover {
+  color: var(--mb-accent-primary);
+  background-color: var(--mb-accent-primary-subtle);
+}
+
+.mb-btn-copy:focus-visible {
+  outline: 3px solid var(--mb-border-focus);
+  outline-offset: 2px;
+}
+
+.mb-btn-copy svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ==========================================================================
+   Component 3: Action Buttons (.mb-actions)
+   ========================================================================== */
+.mb-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mb-spacing-gap-buttons);
+}
+
+.mb-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--mb-shape-button);
+  font-family: inherit;
+  font-size: var(--mb-font-size-body);
+  line-height: var(--mb-line-height-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 150ms ease, transform 100ms ease-out, border-color 150ms ease;
+  user-select: none;
+}
+
+.mb-btn:active {
+  transform: scale(0.98);
+}
+
+.mb-btn:focus-visible {
+  outline: 3px solid var(--mb-border-focus);
+  outline-offset: 2px;
+}
+
+.mb-btn-primary {
+  min-height: var(--mb-spacing-button-h-primary); /* 52px */
+  background-color: var(--mb-accent-primary);
+  color: var(--mb-text-inverse);
+  font-weight: 600;
+  border: 1px solid transparent;
+  padding: 0 20px;
+}
+
+.mb-btn-primary:hover {
+  background-color: var(--mb-accent-primary-hover);
+}
+
+.mb-btn-primary:active {
+  background-color: var(--mb-accent-primary-active);
+}
+
+.mb-btn-secondary {
+  min-height: var(--mb-spacing-button-h-secondary); /* 48px */
+  background-color: #FFFFFF;
+  color: var(--mb-text-secondary);
+  font-weight: 500;
+  border: 1px solid var(--mb-border-card);
+  padding: 0 20px;
+}
+
+.mb-btn-secondary:hover {
+  background-color: var(--mb-surface-card-subtle);
+  color: var(--mb-text-primary);
+}
+
+.mb-btn.is-busy {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* Support Footnote */
+.mb-support-ref {
+  text-align: center;
+  font-size: var(--mb-font-size-caption);
+  line-height: var(--mb-line-height-caption);
+  color: var(--mb-text-secondary);
+  word-break: break-all;
+  padding-top: 4px;
+}
+
+/* ==========================================================================
+   State 1: Skeleton Wireframe (.is-skeleton)
+   ========================================================================== */
+.mb-skeleton {
+  background-color: var(--mb-surface-card-subtle);
+  border-radius: var(--mb-shape-skeleton);
+  animation: skeleton-pulse 1200ms ease-in-out infinite alternate;
+}
+
+.mb-skeleton-avatar {
+  width: var(--mb-spacing-avatar-size);
+  height: var(--mb-spacing-avatar-size);
+  border-radius: var(--mb-shape-avatar);
+  margin-bottom: 16px;
+}
+
+.mb-skeleton-name {
+  width: 160px;
+  height: 24px;
+  margin-bottom: 20px;
+}
+
+.mb-skeleton-row {
+  width: 100%;
+  height: 24px;
+}
+
+.mb-loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 0;
+  color: var(--mb-text-secondary);
+  font-size: var(--mb-font-size-body);
+  font-weight: 500;
+}
+
+.mb-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid var(--mb-surface-card-subtle);
+  border-top-color: var(--mb-accent-primary);
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   State 4: Unauthenticated Card & State 5: Error Card
+   ========================================================================== */
+.mb-state-card {
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.mb-state-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.mb-state-icon-unauth {
+  background-color: #ECFDF5;
+  color: #06C755; /* LINE signature green */
+}
+
+.mb-state-icon-error {
+  background-color: var(--mb-surface-state-error);
+  border: 1px solid var(--mb-border-state-error);
+  color: var(--mb-text-error);
+}
+
+.mb-state-icon-wrapper svg {
+  width: 36px;
+  height: 36px;
+}
+
+.mb-state-title {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+  color: var(--mb-text-primary);
+}
+
+.mb-state-title.is-error {
+  color: var(--mb-text-error);
+}
+
+.mb-state-desc {
+  font-size: var(--mb-font-size-body);
+  line-height: var(--mb-line-height-body);
+  color: var(--mb-text-secondary);
+  max-width: 320px;
+}
+
+/* ==========================================================================
+   Interactive Toast Notification (.mb-toast)
+   ========================================================================== */
+.mb-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: #0F172A;
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border-radius: 9999px;
+  font-size: var(--mb-font-size-caption);
+  line-height: 20px;
+  font-weight: 500;
+  box-shadow: var(--mb-depth-level-2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 200ms ease-out, opacity 200ms ease-out;
+  z-index: 100;
+  max-width: 90vw;
+  white-space: nowrap;
+}
+
+.mb-toast.is-active {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Keyframes & Animations
+   ========================================================================== */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes skeleton-pulse {
+  0% { opacity: 0.6; }
+  100% { opacity: 1.0; }
+}
+
+/* ==========================================================================
+   Reduced Motion Accessibility Mandate (design.md Section 8.2)
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .mb-skeleton {
+    animation: none !important;
+    background-color: var(--mb-surface-card-subtle) !important;
+    opacity: 0.8 !important;
+  }
+}

@@ -1,0 +1,10 @@
+# Not part of the LINE member web app
+/restaurant-team
+/.env
+/.env.*
+/test
+/design.md
+/server.js
+/README.md
+/.git
+node_modules

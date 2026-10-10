@@ -1,0 +1,13 @@
+# secrets
+.env
+.env.*
+
+# dependencies
+node_modules/
+
+# Vercel local link
+.vercel
+
+# misc
+.DS_Store
+*.log
